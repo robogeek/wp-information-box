@@ -1,12 +1,12 @@
 <?php
 /*
-  Plugin Name: Affiliate/Information Link Box
-  Plugin URI: https://github.com/robogeek/wp-ebook-maker
-  Description: A box for your content to display information or an affiliate product
+  Plugin Name: Information Link Box
+  Plugin URI: https://github.com/robogeek/wp-information-box
+  Description: A inline or aside box to display information with links 
   Version: 0.1.0
   Author: David Herron
   Author URI: http://davidherron.com/wordpress
-  slug: info-affiliate-box
+  slug: information-box
   License: GPLv2 or later
 
   This program is free software; you can redistribute it and/or modify
@@ -44,70 +44,25 @@
  * At the bottom is an empty row, with an ADD button instead of DELETE
  **/
 
-define("DHAFFPRODUCTDIR", plugin_dir_path( __FILE__ ));
-define("DHAFFPRODUCTURL", plugin_dir_url( __FILE__ ));
+define("DHINFOBOXDIR", plugin_dir_path( __FILE__ ));
+define("DHINFOBOXURL", plugin_dir_url( __FILE__ ));
 
 if (is_admin()) {
-	require_once DHAFFPRODUCTDIR.'admin.php';
+	require_once DHINFOBOXDIR.'admin.php';
 }
 
-function dh_affproduct_shortcode($atts, $content = "") {
+function dh_infobox_shortcode($atts, $content = "") {
     
-	$amzncode    = get_option('dh_affproduct_amazon_code');
-	$rakutenid     = get_option('dh_affproduct_rakuten_id');
-    
-    // TODO: Configure
-    $rakutendata = array(
-        'example.com' => array(
-            "mid" => "EXAMPLE"
-        ),
-        'refurb.io' => array(
-            "mid" => "40098"
-        ),
-        'dreamstime.com' => array(
-            "mid" => "39291"
-        ),
-        'marketing.rakuten.com' => array(
-            "mid" => "560"
-        ),
-        'rakuten.com' => array(
-            "mid" => "36342"
-        ),
-        'buy.com' => array(
-            "mid" => "36342"
-        ),
-        'shambhala.com' => array(
-            "mid" => "35631"
-        ),
-        'heartmath.com' => array(
-            "mid" => "35610"
-        ),
-        'interstatebatteries.com' => array(
-            "mid" => "2898"
-        ),
-        'relaxtheback.com' => array(
-            "mid" => "2750"
-        ),
-        'alibris.com' => array(
-            "mid" => "2653"
-        ),
-        'gaiam.com' => array(
-            "mid" => "2311"
-        ),
-        'beadroom.com' => array(
-            "mid" => "1139"
-        )
-    );
 
-	$thumbfloat    = get_option('dh_affproduct_thumb_float', 'right');
-	$thumbmaxwidth = get_option('dh_affproduct_thumb_maxwidth', '200px');
-	$float         = get_option('dh_affproduct_box_float');
-	$maxwidth      = get_option('dh_affproduct_box_maxwidth');
-	$padding       = get_option('dh_affproduct_box_padding');
-	$margin        = get_option('dh_affproduct_box_margin');
-	$border        = get_option('dh_affproduct_box_border');
-	$background    = get_option('dh_affproduct_box_background');
-	$linkslabel    = get_option('dh_affproduct_box_linkslabel');
+	$thumbfloat    = get_option('dh_infobox_thumb_float', 'right');
+	$thumbmaxwidth = get_option('dh_infobox_thumb_maxwidth', '200px');
+	$float         = get_option('dh_infobox_box_float');
+	$maxwidth      = get_option('dh_infobox_box_maxwidth');
+	$padding       = get_option('dh_infobox_box_padding');
+	$margin        = get_option('dh_infobox_box_margin');
+	$border        = get_option('dh_infobox_box_border');
+	$background    = get_option('dh_infobox_box_background');
+	$linkslabel    = get_option('dh_infobox_box_linkslabel');
     
     $links = '';
     $thumbimg = '';
@@ -183,37 +138,12 @@ IMG;
             continue;
         }
         
-        // asinANYTHING ==> amazon.com link
-        $asinloc = strpos($key, 'asin');
-        if ($asinloc !== false && $asinloc === 0) {
-            $links .= " [<a rel='nofollow noskim' href='http://www.amazon.com/dp/$value?tag=$amzncode'>amazon.com</a>]";
-            continue;
-        }
-        
         $urlloc = strpos($key, 'url');
         if ($urlloc !== false && $urlloc === 0) {
-            $afflink = $value;
+            $linktext = $value;
             $reltext = 'nofollow noskim';
-			$urlParts = parse_url($value);
             
-            // If this is a Rakuten/Linkshare affiliate, it needs special treatment
-            foreach ($rakutendata as $rakutenhost => $rakdata) {
-                if (dh_affproduct_domainEndsWith($urlParts['host'], $rakutenhost)) {
-                    // This is a known Rakuten/Linkshare host, set up special link
-                    if (dh_affproduct_domainEndsWith($urlParts['host'], "rakuten.com")) {
-                        $afflinkbase = "http://affiliate.rakuten.com/";
-                    } else if (dh_affproduct_domainEndsWith($urlParts['host'], "walmart.com")) {
-                        $afflinkbase = "http://linksynergy.walmart.com/";
-                    } else {
-                        $afflinkbase = "http://click.linksynergy.com/";
-                    }
-                    $urlEncoded = urlencode($value);
-                    $afflink = $afflinkbase ."deeplink?id={$rakutenid}&mid={$rakdata['mid']}&murl={$urlEncoded}";
-                    $reltext = 'nofollow noskim';
-                }
-            }
-            
-            $links .= " [<a rel='$reltext' href='$afflink'>". $urlParts['host'] ."</a>]";
+            $links .= " [<a rel='$reltext' href='$linktext'>". $urlParts['host'] ."</a>]";
             continue;
         }
         
@@ -227,18 +157,19 @@ IMG;
     if (!empty($background)) $background  = "background: $background;";
     
     $ret = <<<EOD
-<div class="affproduct-block" style="{$border}{$background}{$float}{$maxwidth}{$padding}{$margin}">
+<div class="infobox-block" style="{$border}{$background}{$float}{$maxwidth}{$padding}{$margin}">
 $thumbimg
-<span class="affproduct-title">$title</span>
-<span class="affproduct-content">$content</span>
-<span class="affproduct-links">{$linkslabel}{$links}</span>
+<span class="infobox-title">$title</span>
+<span class="infobox-content">$content</span>
+<span class="infobox-links">{$linkslabel}{$links}</span>
 </div>
 EOD;
 	return $ret;
 }
-add_shortcode('affproduct', 'dh_affproduct_shortcode');
+add_shortcode('infobox', 'dh_infobox_shortcode');
 
-function dh_affproduct_domainEndsWith($haystack, $needle) {
+// moot?
+function dh_infobox_domainEndsWith($haystack, $needle) {
 	// search forward starting from end minus needle length characters
 	return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && stripos($haystack, $needle, $temp) !== FALSE);
 }
