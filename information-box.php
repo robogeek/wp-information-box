@@ -3,7 +3,7 @@
   Plugin Name: Information Link Box
   Plugin URI: https://github.com/robogeek/wp-information-box
   Description: A inline or aside box to display information with links 
-  Version: 0.1.1
+  Version: 0.1.2
   Author: David Herron
   Author URI: http://davidherron.com/wordpress
   slug: information-box
@@ -129,7 +129,7 @@ IMG;
         if ($urlloc !== false && $urlloc === 0) {
             $linktext = $value;
             $reltext = 'nofollow noskim';
-            
+            $urlParts = parse_url($linktext);
             $links .= " [<a rel='$reltext' href='$linktext'>". $urlParts['host'] ."</a>]";
             continue;
         }
