@@ -3,7 +3,7 @@
   Plugin Name: Information Link Box
   Plugin URI: https://github.com/robogeek/wp-information-box
   Description: A inline or aside box to display information with links 
-  Version: 0.1.0
+  Version: 0.1.1
   Author: David Herron
   Author URI: http://davidherron.com/wordpress
   slug: information-box

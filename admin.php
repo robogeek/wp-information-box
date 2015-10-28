@@ -49,7 +49,7 @@ function register_dh_infobox_settings() {
 }
 
 function dh_infobox_plugin_menu() {
-	add_options_page('Affiliate/Information Link Box', 'Affiliate/Information Link Box',
+	add_options_page('Information Link Box', 'Information Link Box',
 					 'manage_options', 'dh_infobox_option_page', 'dh_infobox_option_page_fn');
 }
 
@@ -65,7 +65,7 @@ function dh_infobox_option_page_fn() {
 	$dh_infobox_box_linkslabel = get_option('dh_infobox_box_linkslabel');
 	?>
 	<div class="wrap">
-		<h2>Affiliate/Information Link Box</h2>
+		<h2>Information Link Box</h2>
 		<div class="content_wrapper">
 			<div class="left">
                     
@@ -76,7 +76,7 @@ function dh_infobox_option_page_fn() {
         <div>
 			
 			<form method="post" action="options.php" enctype="multipart/form-data">
-				<?php settings_fields('dh-affproduct-settings-thumb'); ?>
+				<?php settings_fields('dh-infobox-settings-thumb'); ?>
 							
 				<div>
 				<label for="dh_infobox_thumb_float"><strong><?php _e('Thumbnail Float right/left:'); ?></strong></label>
@@ -121,7 +121,7 @@ function dh_infobox_option_page_fn() {
         <div>
 			
 			<form method="post" action="options.php" enctype="multipart/form-data">
-				<?php settings_fields('dh-affproduct-settings-outerbox'); ?>
+				<?php settings_fields('dh-infobox-settings-outerbox'); ?>
 
 				<div>
 				<label for="dh_infobox_box_float"><strong><?php _e('Float right/left:'); ?></strong></label>
