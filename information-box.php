@@ -28,20 +28,7 @@
  *
  * a) fix admin screen so Label and TextField are on same row, rather than split
  * b) noskim, nofollow
- * c) special handling for various destinations
- * z) zazzle.com
  *
- * For configuring Rakuten merchant ID's
- *
- * 1) add a new option pane in the accordion
- * 2) give it a big textarea
- * 3) give instructions to enter lines with "domain.com ID" values
- *
- * Ideally this would have an appropriate UI.
- *
- * For example, a table where each row is one domain.com
- * Each row has textfield for domain.com, and the ID, as well as DELETE and EDIT buttons
- * At the bottom is an empty row, with an ADD button instead of DELETE
  **/
 
 define("DHINFOBOXDIR", plugin_dir_path( __FILE__ ));
@@ -71,7 +58,7 @@ function dh_infobox_shortcode($atts, $content = "") {
         // thumb ==> create <img> tag
         if ($key === 'thumburl') {
             $thumbimg = <<<IMG
-<span class="affproduct-img" style="float: $thumbfloat">
+<span class="infobox-img" style="float: $thumbfloat">
 <img src='$value' align='$thumbfloat' style='max-width: $thumbmaxwidth;'>
 </span>
 IMG;
