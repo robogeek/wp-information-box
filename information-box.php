@@ -2,15 +2,15 @@
 /*
   Plugin Name: Information Link Box
   Plugin URI: https://github.com/robogeek/wp-information-box
-  Description: A inline or aside box to display information with links 
-  Version: 0.1.2
+  Description: A inline or aside box to display information with links
+  Version: 0.1.3
   Author: David Herron
   Author URI: http://davidherron.com/wordpress
   slug: information-box
   License: GPLv2 or later
 
   This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License, version 2, as 
+  it under the terms of the GNU General Public License, version 2, as
   published by the Free Software Foundation.
 
   This program is distributed in the hope that it will be useful,
@@ -22,14 +22,6 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
-/**
- * TODO:
- *
- * a) fix admin screen so Label and TextField are on same row, rather than split
- * b) noskim, nofollow
- *
- **/
 
 define("DHINFOBOXDIR", plugin_dir_path( __FILE__ ));
 define("DHINFOBOXURL", plugin_dir_url( __FILE__ ));
@@ -135,7 +127,9 @@ IMG;
         }
         
     }
-    
+
+    $content = do_shortcode($content);
+
     if (!empty($float))      $float       = "float: $float;";
     if (!empty($maxwidth))   $maxwidth    = "max-width: $maxwidth;";
     if (!empty($padding))    $padding     = "padding: $padding;";
