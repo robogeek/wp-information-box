@@ -23,6 +23,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/** A comment **/
+
 define("DHINFOBOXDIR", plugin_dir_path( __FILE__ ));
 define("DHINFOBOXURL", plugin_dir_url( __FILE__ ));
 
